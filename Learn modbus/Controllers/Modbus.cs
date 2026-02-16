@@ -27,5 +27,26 @@ namespace Learn_modbus.Controllers
                 }
             }
         }
+
+        [HttpPost("write-holding")]
+        public IActionResult WriteRegister(string ip, int address, short value)
+        {
+            using (var client = new ModbusTcpClient())
+            {
+                try
+                {
+                    // Connect to the Modbus server
+                    client.Connect(ip, ModbusEndianness.BigEndian);
+
+                    // Write the value
+                    client.WriteSingleRegister(1, address, value);
+
+                    return Ok("Value written successfully");
+                } catch (Exception ex)
+                {
+                    return BadRequest(ex.Message);
+                }
+            }
+        }
     }
 }
