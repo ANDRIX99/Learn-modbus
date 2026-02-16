@@ -1,0 +1,6 @@
+@Learn_modbus_HostAddress = http://localhost:5092
+
+GET {{Learn_modbus_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
