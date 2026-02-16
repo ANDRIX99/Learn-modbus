@@ -50,7 +50,8 @@ namespace Learn_modbus.Controllers
         }
 
         [HttpPost("write-holding")]
-        public IActionResult WriteRegister(string ip, int address, short value)
+        // Write a single holding register value to a specific slave device
+        public IActionResult WriteRegister(string ip, byte slaveId, int address, short value)
         {
             using (var client = new ModbusTcpClient())
             {
@@ -60,7 +61,7 @@ namespace Learn_modbus.Controllers
                     client.Connect(ip, ModbusEndianness.BigEndian);
 
                     // Write the value
-                    client.WriteSingleRegister(1, address, value);
+                    client.WriteSingleRegister(slaveId, address, value);
 
                     return Ok("Value written successfully");
                 } catch (Exception ex)
