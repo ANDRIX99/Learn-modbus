@@ -28,6 +28,27 @@ namespace Learn_modbus.Controllers
             }
         }
 
+        [HttpGet("read-specific-slave")]
+        public IActionResult ReadFromSpecificSlave(string ip, byte slaveId, int startAddress, int count)
+        {
+            using (var client = new ModbusTcpClient())
+            {
+                try
+                {
+                    // Connect to the modbus server
+                    client.Connect(ip, ModbusEndianness.BigEndian);
+
+                    // Read holding registers from the specified slave
+                    var data = client.ReadHoldingRegisters<short>(slaveId, startAddress, count);
+
+                    return Ok(data.ToArray());
+                } catch (Exception ex)
+                {
+                    return BadRequest(ex.Message);
+                }
+            }
+        }
+
         [HttpPost("write-holding")]
         public IActionResult WriteRegister(string ip, int address, short value)
         {
