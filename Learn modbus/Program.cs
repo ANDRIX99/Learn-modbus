@@ -1,8 +1,17 @@
+using Learn_modbus.Services;
 using Scalar.AspNetCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
+builder.Services.AddHostedService(sp => 
+new ReadPolling(
+        sp.GetRequiredService<ILogger<ReadPolling>>(),
+        slaveId: 1,
+        startAddress: 0,
+        count: 3
+    )
+);
 
 builder.Services.AddControllers();
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi

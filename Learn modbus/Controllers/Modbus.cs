@@ -20,6 +20,9 @@ namespace Learn_modbus.Controllers
                     // Read holding registers
                     var data = client.ReadHoldingRegisters<short>(1, startAddress, count);
 
+                    // Disconnect from the server
+                    client.Disconnect();
+
                     return Ok(data.ToArray());
                 } catch (Exception ex)
                 {
@@ -40,6 +43,9 @@ namespace Learn_modbus.Controllers
 
                     // Read holding registers from the specified slave
                     var data = client.ReadHoldingRegisters<short>(slaveId, startAddress, count);
+
+                    // Disconnect from the server
+                    client.Disconnect();
 
                     return Ok(data.ToArray());
                 } catch (Exception ex)
@@ -72,7 +78,8 @@ namespace Learn_modbus.Controllers
                         result[i] = (data[byteIndex] & (1 << bitIndex)) != 0;
                     }
 
-                    Console.WriteLine($"Data: {data.ToString()}");
+                    // Disconnect from the server
+                    client.Disconnect();
 
                     return Ok(result);
                 } catch (Exception ex)
@@ -96,6 +103,9 @@ namespace Learn_modbus.Controllers
                     // Write the value
                     client.WriteSingleRegister(slaveId, address, value);
 
+                    // Disconnect from the server
+                    client.Disconnect();
+
                     return Ok("Value written successfully");
                 } catch (Exception ex)
                 {
@@ -117,6 +127,9 @@ namespace Learn_modbus.Controllers
 
                     // Write the coil value
                     client.WriteSingleCoil(slaveId, address, value);
+
+                    // Disconnect from the server
+                    client.Disconnect();
 
                     return Ok("Value written successfully");
                 } catch (Exception ex)
