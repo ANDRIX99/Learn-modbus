@@ -49,6 +49,39 @@ namespace Learn_modbus.Controllers
             }
         }
 
+        [HttpGet("read-coils")]
+        public IActionResult ReadCoils(string ip, byte slaveId, int startAddress, int count)
+        {
+            using (var client = new ModbusTcpClient())
+            {
+                try
+                {
+                    // Connect to the modbus server
+                    client.Connect(ip);
+
+                    // Read coils from the specified slave
+                    Span<byte> data = client.ReadCoils(slaveId, startAddress, count);
+
+                    // Parse byte to bool
+                    bool[] result = new bool[count];
+
+                    for (int i = 0; i < count; i++)
+                    {
+                        int byteIndex = i / 8;
+                        int bitIndex = i % 8;
+                        result[i] = (data[byteIndex] & (1 << bitIndex)) != 0;
+                    }
+
+                    Console.WriteLine($"Data: {data.ToString()}");
+
+                    return Ok(result);
+                } catch (Exception ex)
+                {
+                    return BadRequest(ex.Message);
+                }
+            }
+        }
+
         [HttpPost("write-holding")]
         // Write a single holding register value to a specific slave device
         public IActionResult WriteRegister(string ip, byte slaveId, int address, short value)
@@ -62,6 +95,28 @@ namespace Learn_modbus.Controllers
 
                     // Write the value
                     client.WriteSingleRegister(slaveId, address, value);
+
+                    return Ok("Value written successfully");
+                } catch (Exception ex)
+                {
+                    return BadRequest(ex.Message);
+                }
+            }
+        }
+
+        [HttpPost("write-coil")]
+        // Write a single coil value to a specific slave device
+        public IActionResult WriteCoil(string ip, byte slaveId, int address, bool value)
+        {
+            using (var client = new ModbusTcpClient())
+            {
+                try
+                {
+                    // Connect to the Modbus server
+                    client.Connect(ip, ModbusEndianness.BigEndian);
+
+                    // Write the coil value
+                    client.WriteSingleCoil(slaveId, address, value);
 
                     return Ok("Value written successfully");
                 } catch (Exception ex)
