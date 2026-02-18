@@ -4,6 +4,8 @@ using Scalar.AspNetCore;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
+
+// Polling service to read from a specific slave
 builder.Services.AddHostedService(sp => 
 new ReadPolling(
         sp.GetRequiredService<ILogger<ReadPolling>>(),

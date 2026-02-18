@@ -89,6 +89,33 @@ namespace Learn_modbus.Controllers
             }
         }
 
+        // Read coil with known bit position
+        [HttpGet("read-coil-bitPosition")]
+        public IActionResult ReadCoil(string ip, byte slaveId, int address, int bitPosition)
+        {
+            using (var client = new ModbusTcpClient())
+            {
+                try
+                {
+                    // Connect to the modbus server
+                    client.Connect(ip);
+
+                    // Read coil from the specified slave
+                    Span<byte> data = client.ReadCoils(slaveId, address, 1);
+
+                    bool result = (data[bitPosition] != 0);
+
+                    // Disconnect from the server
+                    client.Disconnect();
+
+                    return Ok(result);
+                } catch (Exception ex)
+                {
+                    return BadRequest(ex.Message);
+                }
+            }
+        }
+
         [HttpPost("write-holding")]
         // Write a single holding register value to a specific slave device
         public IActionResult WriteRegister(string ip, byte slaveId, int address, short value)
