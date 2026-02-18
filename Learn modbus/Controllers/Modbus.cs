@@ -102,8 +102,12 @@ namespace Learn_modbus.Controllers
 
                     // Read coil from the specified slave
                     Span<byte> data = client.ReadCoils(slaveId, address, 1);
+                    
+                    // Calculate bit and byte indexs
+                    int bytePosition = bitPosition / 8;
+                    int bitIndex = bitPosition % 8;
 
-                    bool result = (data[bitPosition] != 0);
+                    bool result = (data[bytePosition] & (1 << bitIndex)) != 0;
 
                     // Disconnect from the server
                     client.Disconnect();
