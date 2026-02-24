@@ -1,0 +1,43 @@
+{
+    "IpAddress": "192.168.50.198",
+    "Registers": [
+      {
+        "Tag": "HMI_Imp_Num_Programma_I",
+        "Address": "4513",
+        "Type": "HoldingRegister",
+        "DataType": "Int16"
+      },
+      {
+        "Tag": "HMI_ImpSetup_Conta_Ore_I",
+        "Address": "4611",
+        "Type": "HoldingRegister",
+        "DataType": "Int16"
+      },
+      {
+        "Tag": "HMI_ImpSetup_Conta_Minuti_I",
+        "Address": "4610",
+        "Type": "HoldingRegister",
+        "DataType": "Int16"
+      },
+      {
+        "Tag": "HMI_Imp_Stato_I",
+        "Address": "4555",
+        "Type": "HoldingRegister",
+        "DataType": "Int16"
+      },
+      {
+        "Tag": "HMI_Imp_VelAvanz_Set_I",
+        "Address": "4517",
+        "Type": "HoldingRegister",
+        "DataType": "Int16",
+        "Scale": 0.1
+      },
+      {
+        "Tag": "HMI_Imp_Abl_Avanzamento_X",
+        "Address": "4500",
+        "Type": "Coil",
+        "DataType": "Boolean",
+        "BitPosition": 0
+      }
+    ]
+}
