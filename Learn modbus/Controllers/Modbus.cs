@@ -1,5 +1,8 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using FluentModbus;
+﻿using FluentModbus;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Win32;
+using System.Buffers.Binary;
+using System.Xml.Linq;
 
 namespace Learn_modbus.Controllers
 {
